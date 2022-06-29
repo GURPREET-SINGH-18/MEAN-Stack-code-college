@@ -1,0 +1,32 @@
+var express = require('express');
+var router = express.Router();
+var MongoClient = require('mongodb').MongoClient
+/* GET home page. */
+
+var url = "mongodb://127.0.0.1:27017"
+var client = new MongoClient(url,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+h=[]
+async function getData(){
+  console.log("start")
+  let result=await client.connect();
+  // console.log(result);
+  let db = result.db('e-comm');
+  let collection = db.collection('products');
+  let res=await collection.find({}).toArray()
+  console.log(res[0]);
+  h=res;
+}
+
+
+
+router.get('/', function(req, res, next) {
+  var t=getData();
+  console.log(h)
+  // next();
+  res.send(h);
+});
+
+module.exports = router;

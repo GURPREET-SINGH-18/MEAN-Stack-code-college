@@ -6,8 +6,9 @@ var ejs = require('ejs');
 var app = express();
 app.listen(5000);
 
-app.engine('html',ejs.renderFile)
-app.set('view engine', 'html')
+app.use(express.static('public'));
+app.engine('html',ejs.renderFile);
+app.set('view engine', 'html');
 
 app.use("/",homeRouter);
 app.use("/login",loginRouter);
